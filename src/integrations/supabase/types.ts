@@ -14,16 +14,323 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      inventory_transactions: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          new_stock: number
+          notes: string | null
+          previous_stock: number
+          product_id: string
+          quantity_change: number
+          reference_id: string | null
+          transaction_type: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          new_stock: number
+          notes?: string | null
+          previous_stock: number
+          product_id: string
+          quantity_change: number
+          reference_id?: string | null
+          transaction_type: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          new_stock?: number
+          notes?: string | null
+          previous_stock?: number
+          product_id?: string
+          quantity_change?: number
+          reference_id?: string | null
+          transaction_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_transactions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_transactions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          metadata: Json | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message: string
+          metadata?: Json | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          metadata?: Json | null
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id: string
+          quantity: number
+          total_price: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          quantity?: number
+          total_price?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          assigned_to: string | null
+          created_at: string
+          created_by: string
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string | null
+          id: string
+          notes: string | null
+          order_number: string
+          order_source: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          created_at?: string
+          created_by: string
+          customer_email?: string | null
+          customer_name: string
+          customer_phone?: string | null
+          id?: string
+          notes?: string | null
+          order_number: string
+          order_source?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total_amount?: number
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          created_at?: string
+          created_by?: string
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string | null
+          id?: string
+          notes?: string | null
+          order_number?: string
+          order_source?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: string | null
+          created_at: string
+          current_stock: number
+          description: string | null
+          id: string
+          is_active: boolean
+          max_stock_level: number
+          min_stock_level: number
+          name: string
+          sku: string
+          supplier_id: string | null
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          current_stock?: number
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          max_stock_level?: number
+          min_stock_level?: number
+          name: string
+          sku: string
+          supplier_id?: string | null
+          unit_price?: number
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          current_stock?: number
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          max_stock_level?: number
+          min_stock_level?: number
+          name?: string
+          sku?: string
+          supplier_id?: string | null
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          is_active: boolean
+          last_name: string
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          is_active?: boolean
+          last_name: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          is_active?: boolean
+          last_name?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { user_uuid: string }
+        Returns: Database["public"]["Enums"]["user_role"]
+      }
+      is_admin: {
+        Args: { user_uuid: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      notification_type:
+        | "order_confirmation"
+        | "low_stock"
+        | "delivery_update"
+        | "system_alert"
+      order_status: "pending" | "processing" | "fulfilled" | "cancelled"
+      user_role: "admin" | "staff" | "supplier"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +457,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      notification_type: [
+        "order_confirmation",
+        "low_stock",
+        "delivery_update",
+        "system_alert",
+      ],
+      order_status: ["pending", "processing", "fulfilled", "cancelled"],
+      user_role: ["admin", "staff", "supplier"],
+    },
   },
 } as const

@@ -147,7 +147,11 @@ const Dashboard = () => {
               {profile?.role === 'admin' && (
                 <Button onClick={() => navigate('/inventory')} className="w-full justify-start" variant="outline">
                   <Users className="mr-2 h-4 w-4" />
+<<<<<<< HEAD
                   Manage Team Members
+=======
+                  Manage Inventory
+>>>>>>> 69939d5 (New UI DESIGN)
                 </Button>
               )}
             </CardContent>

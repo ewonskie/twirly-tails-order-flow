@@ -209,7 +209,7 @@ const Dashboard = () => {
               </Button>
               {profile?.role === 'admin' && (
                 <Button asChild className="w-full justify-start" variant="outline">
-                  <Link to="/auth">
+                  <Link to="/team">
                     <Users className="mr-2 h-4 w-4" />
                     Manage Team
                   </Link>

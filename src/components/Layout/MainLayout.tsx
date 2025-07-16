@@ -25,6 +25,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+// Fixed dropdown menu imports
+
 interface MainLayoutProps {
   children: React.ReactNode;
 }

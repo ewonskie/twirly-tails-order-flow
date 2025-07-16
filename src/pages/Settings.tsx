@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Moon, Sun, User, Save } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { BackButton } from '@/components/ui/back-button';
 
 const Settings = () => {
   const { profile } = useAuth();
@@ -65,6 +66,8 @@ const Settings = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
+      <BackButton />
+      
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Settings</h1>
         <p className="text-muted-foreground mt-2">

@@ -7,9 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Package, Edit, AlertTriangle } from 'lucide-react';
+import { Plus, Package, Edit, AlertTriangle, Search } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { BackButton } from '@/components/ui/back-button';
 
 interface Product {
   id: string;
@@ -30,6 +31,8 @@ export default function Products() {
   const { profile } = useAuth();
   const { toast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -53,6 +56,7 @@ export default function Products() {
 
       if (error) throw error;
       setProducts(data || []);
+      setFilteredProducts(data || []);
     } catch (error) {
       console.error('Error fetching products:', error);
       toast({
@@ -68,6 +72,23 @@ export default function Products() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (product.category && product.category.toLowerCase().includes(searchQuery.toLowerCase()))
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [products, searchQuery]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   const resetForm = () => {
     setFormData({
@@ -167,6 +188,8 @@ export default function Products() {
 
   return (
     <div className="container mx-auto p-6">
+      <BackButton />
+      
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold">Products</h1>
@@ -290,8 +313,21 @@ export default function Products() {
         )}
       </div>
 
+      {/* Search Bar */}
+      <div className="mb-6">
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search products by name, SKU, or category..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="pl-10"
+          />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => {
+        {filteredProducts.map((product) => {
           const stockStatus = getStockStatus(product);
           return (
             <Card key={product.id}>
@@ -352,6 +388,21 @@ export default function Products() {
           );
         })}
       </div>
+
+      {filteredProducts.length === 0 && products.length > 0 && (
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <Package className="h-12 w-12 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No products match your search</h3>
+            <p className="text-muted-foreground text-center mb-4">
+              Try adjusting your search terms or browse all products.
+            </p>
+            <Button variant="outline" onClick={() => setSearchQuery('')}>
+              Clear Search
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       {products.length === 0 && (
         <Card>

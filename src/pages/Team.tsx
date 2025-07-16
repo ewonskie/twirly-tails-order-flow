@@ -11,6 +11,7 @@ import { Plus, Users, Mail, Phone, Shield, UserCheck, UserX } from 'lucide-react
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { BackButton } from '@/components/ui/back-button';
 
 interface TeamMember {
   id: string;
@@ -173,6 +174,8 @@ export default function Team() {
   return (
     <ProtectedRoute requiredRole="admin">
       <div className="container mx-auto p-6">
+        <BackButton />
+        
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold">Team Management</h1>

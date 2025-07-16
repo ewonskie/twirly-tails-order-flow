@@ -2,11 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Phone, Mail, Clock, ChefHat, Utensils } from "lucide-react";
 import { MainLayout } from "@/components/Layout/MainLayout";
+import { BackButton } from "@/components/ui/back-button";
 
 const Contact = () => {
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-8">
+        <BackButton />
+        
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
             Contact Us

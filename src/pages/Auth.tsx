@@ -67,44 +67,23 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!profile || profile.role !== 'admin') {
+    try {
+      // Simulate loading for demo purposes
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       toast({
-        title: "Access denied",
-        description: "Only administrators can create new user accounts.",
+        title: "Demo Mode",
+        description: "Account creation is disabled in demo mode. This is for demonstration purposes only.",
         variant: "destructive",
       });
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const { error } = await createUser(
-        signUpData.email,
-        signUpData.password,
-        signUpData.firstName,
-        signUpData.lastName,
-        signUpData.role
-      );
       
-      if (error) {
-        toast({
-          title: "Account creation failed",
-          description: error.message,
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Account created successfully",
-          description: `New ${signUpData.role} account has been created for ${signUpData.firstName} ${signUpData.lastName}.`,
-        });
-        setSignUpData({
-          email: '',
-          password: '',
-          firstName: '',
-          lastName: '',
-          role: 'staff',
-        });
-      }
+      setSignUpData({
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        role: 'staff',
+      });
     } catch (error) {
       toast({
         title: "Error",
@@ -130,9 +109,7 @@ const Auth = () => {
         <Tabs defaultValue="signin" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="signin">Sign In</TabsTrigger>
-            <TabsTrigger value="signup" disabled={!profile || profile.role !== 'admin'}>
-              Create Account
-            </TabsTrigger>
+            <TabsTrigger value="signup">Create Account</TabsTrigger>
           </TabsList>
 
           <TabsContent value="signin">
@@ -189,85 +166,74 @@ const Auth = () => {
               <CardHeader>
                 <CardTitle>Create Account</CardTitle>
                 <CardDescription>
-                  {profile?.role === 'admin' 
-                    ? 'Create a new user account for your team'
-                    : 'Only administrators can create new accounts'
-                  }
+                  Create a new user account (Demo Mode)
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {profile?.role === 'admin' ? (
-                  <form onSubmit={handleCreateUser} className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="first-name">First Name</Label>
-                        <Input
-                          id="first-name"
-                          value={signUpData.firstName}
-                          onChange={(e) => setSignUpData({ ...signUpData, firstName: e.target.value })}
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="last-name">Last Name</Label>
-                        <Input
-                          id="last-name"
-                          value={signUpData.lastName}
-                          onChange={(e) => setSignUpData({ ...signUpData, lastName: e.target.value })}
-                          required
-                        />
-                      </div>
-                    </div>
+                <form onSubmit={handleCreateUser} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="signup-email">Email</Label>
+                      <Label htmlFor="first-name">First Name</Label>
                       <Input
-                        id="signup-email"
-                        type="email"
-                        value={signUpData.email}
-                        onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+                        id="first-name"
+                        value={signUpData.firstName}
+                        onChange={(e) => setSignUpData({ ...signUpData, firstName: e.target.value })}
                         required
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="signup-password">Password</Label>
+                      <Label htmlFor="last-name">Last Name</Label>
                       <Input
-                        id="signup-password"
-                        type="password"
-                        value={signUpData.password}
-                        onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+                        id="last-name"
+                        value={signUpData.lastName}
+                        onChange={(e) => setSignUpData({ ...signUpData, lastName: e.target.value })}
                         required
-                        minLength={6}
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="role">Role</Label>
-                      <Select
-                        value={signUpData.role}
-                        onValueChange={(value: 'admin' | 'staff' | 'supplier') => 
-                          setSignUpData({ ...signUpData, role: value })
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="staff">Staff</SelectItem>
-                          <SelectItem value="supplier">Supplier</SelectItem>
-                          <SelectItem value="admin">Admin</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <Button type="submit" className="w-full" disabled={isLoading}>
-                      {isLoading ? 'Creating account...' : 'Create Account'}
-                    </Button>
-                  </form>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-muted-foreground">
-                      Please sign in as an administrator to create new accounts.
-                    </p>
                   </div>
-                )}
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-email">Email</Label>
+                    <Input
+                      id="signup-email"
+                      type="email"
+                      value={signUpData.email}
+                      onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="signup-password">Password</Label>
+                    <Input
+                      id="signup-password"
+                      type="password"
+                      value={signUpData.password}
+                      onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+                      required
+                      minLength={6}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="role">Role</Label>
+                    <Select
+                      value={signUpData.role}
+                      onValueChange={(value: 'admin' | 'staff' | 'supplier') => 
+                        setSignUpData({ ...signUpData, role: value })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="staff">Staff</SelectItem>
+                        <SelectItem value="supplier">Supplier</SelectItem>
+                        <SelectItem value="admin">Admin</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? 'Creating account...' : 'Create Account (Demo)'}
+                  </Button>
+                </form>
               </CardContent>
             </Card>
           </TabsContent>

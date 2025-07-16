@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DatePicker } from '@/components/ui/calendar';
-import { Download, FileText, TableIcon } from 'lucide-react';
+import { Download, FileText } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -94,7 +93,6 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({ className }) =
           const { data: lowStockData, error: lowStockError } = await supabase
             .from('products')
             .select('name, sku, current_stock, min_stock_level, category')
-            .filter('current_stock', 'lte', supabase.rpc('current_stock'))
             .filter('is_active', 'eq', true);
 
           if (lowStockError) throw lowStockError;

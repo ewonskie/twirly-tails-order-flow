@@ -172,7 +172,7 @@ export default function Orders() {
         customer_phone: formData.customer_phone,
         total_amount: totalAmount,
         notes: formData.notes,
-        created_by: profile?.user_id,
+        created_by: profile?.id, // Use profile.id instead of profile.user_id
       };
 
       const { data: order, error: orderError } = await supabase
@@ -262,12 +262,31 @@ export default function Orders() {
       case 'processing':
         return 'default' as const;
       case 'fulfilled':
-        return 'default' as const;
+        return 'default' as const; // Completed orders
       case 'cancelled':
         return 'destructive' as const;
       default:
         return 'secondary' as const;
     }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'processing':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'fulfilled':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'cancelled':
+        return 'bg-red-100 text-red-800 border-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const isOrderCompleted = (status: string) => {
+    return status === 'fulfilled' || status === 'cancelled';
   };
 
   const canManage = profile?.role === 'admin' || profile?.role === 'staff';
@@ -432,10 +451,15 @@ export default function Orders() {
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Badge variant={getStatusVariant(order.status)} className="flex items-center space-x-1">
-                    {getStatusIcon(order.status)}
-                    <span>{order.status.toUpperCase()}</span>
-                  </Badge>
+                  <div className="flex flex-col space-y-1">
+                    <Badge variant={getStatusVariant(order.status)} className={`flex items-center space-x-1 ${getStatusColor(order.status)}`}>
+                      {getStatusIcon(order.status)}
+                      <span>{order.status.toUpperCase()}</span>
+                    </Badge>
+                    <span className="text-xs text-muted-foreground">
+                      {isOrderCompleted(order.status) ? 'Completed' : 'Ongoing'}
+                    </span>
+                  </div>
                   {canManage && order.status !== 'fulfilled' && order.status !== 'cancelled' && (
                     <Select
                       value={order.status}

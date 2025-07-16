@@ -37,10 +37,11 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
-    { name: 'Products', href: '/products', icon: Package },
+    { name: 'Menu Items', href: '/products', icon: Package },
     { name: 'Orders', href: '/orders', icon: ShoppingCart },
-    { name: 'Inventory', href: '/inventory', icon: BarChart3 },
-    ...(profile?.role === 'admin' ? [{ name: 'Team', href: '/team', icon: Users }] : []),
+    { name: 'Kitchen Inventory', href: '/inventory', icon: BarChart3 },
+    ...(profile?.role === 'admin' ? [{ name: 'Staff Management', href: '/team', icon: Users }] : []),
+    { name: 'Contact Info', href: '/contact', icon: Users },
   ];
 
   return (
@@ -59,7 +60,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   Twirly Tails
                 </h1>
-                <p className="text-xs text-muted-foreground font-medium">Order Management System</p>
+                <p className="text-xs text-muted-foreground font-medium">Restaurant Management</p>
               </div>
             </div>
           </div>
@@ -125,7 +126,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center space-x-2">
               <Package className="h-4 w-4 text-primary" />
-              <span>© 2024 Twirly Tails OMS. All rights reserved.</span>
+              <span>© 2024 Twirly Tails Restaurant. All rights reserved.</span>
             </div>
             <div className="flex items-center space-x-4">
               <span>Status: </span>

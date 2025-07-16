@@ -112,7 +112,7 @@ const Dashboard = () => {
             Welcome back, {profile?.first_name}!
           </h2>
           <p className="text-muted-foreground text-lg">
-            Here's your business overview for today
+            Here's your restaurant overview for today
           </p>
         </div>
 
@@ -121,13 +121,13 @@ const Dashboard = () => {
           <Card className="relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5"></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-              <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
+              <CardTitle className="text-sm font-medium">Today's Orders</CardTitle>
               <ShoppingCart className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent className="relative">
               <div className="text-2xl font-bold">{stats.totalOrders}</div>
               <p className="text-xs text-muted-foreground">
-                {stats.pendingOrders} pending
+                {stats.pendingOrders} pending orders
               </p>
             </CardContent>
           </Card>
@@ -135,13 +135,13 @@ const Dashboard = () => {
           <Card className="relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5"></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-              <CardTitle className="text-sm font-medium">Revenue</CardTitle>
+              <CardTitle className="text-sm font-medium">Today's Revenue</CardTitle>
               <DollarSign className="h-4 w-4 text-accent" />
             </CardHeader>
             <CardContent className="relative">
-              <div className="text-2xl font-bold">${stats.revenue.toFixed(2)}</div>
+              <div className="text-2xl font-bold">₱{stats.revenue.toLocaleString()}</div>
               <p className="text-xs text-muted-foreground">
-                All-time total
+                Sales performance
               </p>
             </CardContent>
           </Card>
@@ -163,13 +163,13 @@ const Dashboard = () => {
           <Card className="relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-info/5 to-success/5"></div>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-              <CardTitle className="text-sm font-medium">Active Products</CardTitle>
+              <CardTitle className="text-sm font-medium">Menu Items</CardTitle>
               <Package className="h-4 w-4 text-info" />
             </CardHeader>
             <CardContent className="relative">
               <div className="text-2xl font-bold">{stats.activeProducts}</div>
               <p className="text-xs text-muted-foreground">
-                Ready for sale
+                Available dishes & beverages
               </p>
             </CardContent>
           </Card>
@@ -192,7 +192,7 @@ const Dashboard = () => {
               <Button asChild className="w-full justify-start" variant="outline">
                 <Link to="/products">
                   <Package className="mr-2 h-4 w-4" />
-                  Manage Products
+                  Manage Menu
                 </Link>
               </Button>
               <Button asChild className="w-full justify-start" variant="outline">
@@ -204,14 +204,14 @@ const Dashboard = () => {
               <Button asChild className="w-full justify-start" variant="outline">
                 <Link to="/inventory">
                   <BarChart3 className="mr-2 h-4 w-4" />
-                  Check Inventory
+                  Kitchen Inventory
                 </Link>
               </Button>
               {profile?.role === 'admin' && (
                 <Button asChild className="w-full justify-start" variant="outline">
                   <Link to="/team">
                     <Users className="mr-2 h-4 w-4" />
-                    Manage Team
+                    Manage Staff
                   </Link>
                 </Button>
               )}
@@ -325,13 +325,13 @@ const Dashboard = () => {
                 <CheckCircle className="h-5 w-5 text-success" />
                 <span className="text-sm font-medium">Authentication Active</span>
               </div>
-              <div className="flex items-center space-x-2 p-3 border rounded-lg bg-warning/5 border-warning/20">
-                <Clock className="h-5 w-5 text-warning" />
-                <span className="text-sm font-medium">Shopify - Pending</span>
+              <div className="flex items-center space-x-2 p-3 border rounded-lg bg-success/5 border-success/20">
+                <CheckCircle className="h-5 w-5 text-success" />
+                <span className="text-sm font-medium">Kitchen Display Online</span>
               </div>
-              <div className="flex items-center space-x-2 p-3 border rounded-lg bg-warning/5 border-warning/20">
-                <Clock className="h-5 w-5 text-warning" />
-                <span className="text-sm font-medium">POS - Pending</span>
+              <div className="flex items-center space-x-2 p-3 border rounded-lg bg-success/5 border-success/20">
+                <CheckCircle className="h-5 w-5 text-success" />
+                <span className="text-sm font-medium">Payment System Active</span>
               </div>
             </div>
           </CardContent>

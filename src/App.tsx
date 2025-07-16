@@ -12,6 +12,7 @@ import Products from "./pages/Products";
 import Orders from "./pages/Orders";
 import Inventory from "./pages/Inventory";
 import Team from "./pages/Team";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -58,6 +59,11 @@ const AppRoutes = () => {
       <Route path="/team" element={
         <ProtectedRoute requiredRole="admin">
           <Team />
+        </ProtectedRoute>
+      } />
+      <Route path="/contact" element={
+        <ProtectedRoute>
+          <Contact />
         </ProtectedRoute>
       } />
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

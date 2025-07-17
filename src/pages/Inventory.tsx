@@ -162,7 +162,7 @@ export default function Inventory() {
           previous_stock: product.current_stock,
           new_stock: newStock,
           notes: formData.notes,
-          created_by: profile?.user_id,
+          created_by: profile?.id,
         });
 
       if (transactionError) throw transactionError;

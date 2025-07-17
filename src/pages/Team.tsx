@@ -26,7 +26,7 @@ interface TeamMember {
 }
 
 export default function Team() {
-  const { profile } = useAuth();
+  const { profile, createUser } = useAuth();
   const { toast } = useToast();
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,7 +81,6 @@ export default function Team() {
 
     try {
       // Use the createUser function from AuthContext
-      const { createUser } = useAuth();
       const { error } = await createUser(
         formData.email,
         formData.password,
